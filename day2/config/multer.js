@@ -2,7 +2,7 @@ import multer from 'multer'
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-cb(null,'upload/')
+         cb(null,'upload/')
     },
     filename:(req,file,cb)=>{
          cb(null, Date.now() + "-" + file.originalname)
@@ -14,17 +14,17 @@ cb(null,'upload/')
 //filter
 
 const fileFilter=(req,file,cb)=>{
-    if(file.mimetype.startsWith('image/')){
+    if(file.mimetype.startsWith('image/') || file.mimetype.startsWith('application/')){
         cb(null,true)
     }else{
-        cb(new Error('Only images are allowd'),false)
+        cb(new Error('Only images and documents are allowed'),false)
     }
 
 }
 
 // Limits
 const limits = {
-  fileSize: 1 * 1024 * 1024*3, // 1MB max
+  fileSize: 3 * 1024 * 1024, // 3MB max
 };
 
 export const upload = multer({ storage, fileFilter, limits });

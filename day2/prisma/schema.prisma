@@ -17,6 +17,26 @@ model User {
   name  String
   email String  @unique
   password String
-  role  String  @default("USER")
-  profileImage String?
+  role  String  @default("intern")
+  interns Intern[]
+}
+
+
+model Intern{
+   id        Int     @id @default(autoincrement())
+  name      String
+  image     String?
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id])
+  tasks     Task[]
+}
+
+
+model Task{
+  id Int @id @default(autoincrement())
+  title String
+  status String @default("pending")
+  attachment String?
+  internId    Int
+  intern      Intern  @relation(fields: [internId], references: [id])
 }

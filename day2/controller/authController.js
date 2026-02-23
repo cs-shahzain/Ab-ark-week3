@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+// import generateToken from '../utils/generateToken';
 import { prisma } from "../config/prisma";
+import jwt from 'jsonwebtoken'
 
 const register=async (req,res)=>{
     try{
@@ -52,11 +53,10 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: uniqueUser.id, role: uniqueUser.role },
-      "SECRET_KEY",
-      { expiresIn: "1h" }
-    );
-
+  { id: uniqueUser.id, role: uniqueUser.role },
+  process.env.JWT_SECRET,
+  { expiresIn: "1h" }
+);
     return res.json({ token });
 
   } catch (error) {
